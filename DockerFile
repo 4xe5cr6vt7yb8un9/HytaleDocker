@@ -6,20 +6,18 @@ WORKDIR /hytale
 
 EXPOSE 5520/udp
 
+# Copy necessary files into the container
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
-    unzip
+    unzip && \
+    apt-get clean
 
-# Download hytale server
-RUN wget https://downloader.hytale.com/hytale-downloader.zip && \
-    unzip hytale-downloader.zip && \
-    rm hytale-downloader.zip
-
-RUN chmod +x /hytale/hytale-downloader-linux-amd64 && \
-    ./hytale-downloader-linux-amd64 --download-path /hytale/game.zip && \
-    unzip /hytale/game.zip -d /hytale && \
-    rm /hytale/game.zip
+# Run command on first container start
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command to execute when the container starts
 CMD ["java", "-jar", "/hytale/Server/HytaleServer.jar", "--assets", "/hytale/Assets.zip"]
