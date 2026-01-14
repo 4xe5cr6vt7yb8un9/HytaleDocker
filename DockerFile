@@ -4,13 +4,22 @@ FROM eclipse-temurin:25
 # Set the working directory in the container
 WORKDIR /hytale
 
-# Copy application files from host to container
-COPY . .
+EXPOSE 5520/udp
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip
+    wget \
+    unzip
+
+# Download hytale server
+RUN wget https://downloader.hytale.com/hytale-downloader.zip && \
+    unzip hytale-downloader.zip && \
+    rm hytale-downloader.zip
+
+RUN chmod +x /hytale/hytale-downloader-linux-amd64 && \
+    ./hytale-downloader-linux-amd64 --download-path /hytale/game.zip && \
+    unzip /hytale/game.zip -d /hytale && \
+    rm /hytale/game.zip
 
 # Set the default command to execute when the container starts
-CMD ["python3", "app.py"]
+CMD ["java", "-jar", "/hytale/Server/HytaleServer.jar", "--assets", "/hytale/Assets.zip"]
