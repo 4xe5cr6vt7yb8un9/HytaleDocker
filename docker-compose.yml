@@ -1,0 +1,12 @@
+# Example docker-compose.yml file for Hytale server
+services:
+  hytale:
+    image: px99/hytaleserver:latest
+    restart: unless-stopped
+    ports:
+      - 5220:5220/udp
+    volumes:
+      - /home/hytale:/hytale
+    stdin_open: true
+    tty: true
+networks: {}
