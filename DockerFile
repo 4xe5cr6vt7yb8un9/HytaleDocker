@@ -20,4 +20,5 @@ RUN apt-get update && apt-get install -y \
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command to execute when the container starts
-CMD ["java", "-jar", "/hytale/Server/HytaleServer.jar", "--assets", "/hytale/Assets.zip"]
+CMD ["java", "-XX:AOTCache=/hytale/Server/HytaleServer.aot", "-jar", \
+     "/hytale/Server/HytaleServer.jar", "--assets", "/hytale/Assets.zip"]
