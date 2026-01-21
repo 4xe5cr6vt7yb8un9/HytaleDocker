@@ -8,7 +8,10 @@ EXPOSE 5520/udp
 
 # Copy necessary files into the container
 COPY entrypoint.sh /entrypoint.sh
+COPY run.sh /run.sh
+
 RUN chmod +x /entrypoint.sh
+RUN chmod +x /run.sh
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -20,4 +23,4 @@ RUN apt-get update && apt-get install -y \
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command to execute when the container starts
-CMD ["/bin/bash", "/hytale/run.sh"]
+CMD ["/run.sh"]
