@@ -64,5 +64,15 @@ if [ -f "$FIRST_RUN_FLAG" ]; then
     fi
 fi
 
+# Start webserver in the background
+echo "Starting webserver..."
+
+# Create stdin fifo if it doesn't exist
+if [ ! -p /webserver/stdin.fifo ]; then
+    mkfifo /webserver/stdin.fifo
+fi
+
+
+
 echo "Starting main app..."
 exec "$@"
