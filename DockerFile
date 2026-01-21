@@ -10,15 +10,20 @@ EXPOSE 5520/udp
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+COPY webserver /webserver
+
+# Create Dedicated User
+RUN useradd -m hytale
+USER hytale
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
     unzip && \
     apt-get clean
 
-# Run command on first container start
+# Run command on container start
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Set the default command to execute when the container starts
-CMD ["java", "-XX:AOTCache=/hytale/Server/HytaleServer.aot", "-jar", \
-     "/hytale/Server/HytaleServer.jar", "--assets", "/hytale/Assets.zip"]
+CMD ["sh", "-c", "/start_server.sh < /webserver/stdin.fifo"]
