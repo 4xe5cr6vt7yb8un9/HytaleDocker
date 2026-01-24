@@ -13,8 +13,9 @@ RUN chmod +x /entrypoint.sh
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget \
-    unzip && \
+    unzip \
+    tini && \
     apt-get clean
 
 # Run command on first container start
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]

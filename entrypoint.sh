@@ -24,6 +24,6 @@ fi
 echo "Starting main app..."
 
 chmod +x start.sh
-./start.sh
+exec ./start.sh
 
 exec "$@"
