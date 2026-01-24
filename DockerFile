@@ -21,6 +21,3 @@ RUN apt-get update && apt-get install -y \
 
 # Run command on first container start
 ENTRYPOINT ["/entrypoint.sh"]
-
-# Set the default command to execute when the container starts
-CMD ["/run.sh"]

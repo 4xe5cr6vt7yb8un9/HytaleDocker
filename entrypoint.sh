@@ -65,4 +65,7 @@ if [ -f "$FIRST_RUN_FLAG" ]; then
 fi
 
 echo "Starting main app..."
+
+./start.sh
+
 exec "$@"
