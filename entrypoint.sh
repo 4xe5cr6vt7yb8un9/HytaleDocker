@@ -24,6 +24,23 @@ fi
 echo "Starting main app..."
 
 chmod +x start.sh
-exec ./start.sh
 
-exec "$@"
+# --- Signal handling ---
+terminate() {
+    echo "Received termination signal, stopping Hytale..."
+
+    # Gracefully stop Java
+    pkill -TERM -f "HytaleServer.jar" || true
+    sleep 10
+
+    # Hard kill if needed
+    pkill -KILL -f "HytaleServer.jar" || true
+}
+
+trap terminate SIGTERM SIGINT
+
+# --- Start launcher ---
+./start.sh &
+LAUNCHER_PID=$!
+
+wait $LAUNCHER_PID
