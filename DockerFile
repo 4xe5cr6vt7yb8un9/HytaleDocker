@@ -18,4 +18,5 @@ RUN apt-get update && apt-get install -y \
     apt-get clean
 
 # Run command on first container start
+STOPSIGNAL SIGTERM
 ENTRYPOINT ["/usr/bin/tini", "--", "/entrypoint.sh"]
