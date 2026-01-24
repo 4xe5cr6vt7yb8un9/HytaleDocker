@@ -16,8 +16,6 @@ if [ ! -f "$FIRST_RUN_FLAG" ]; then
     unzip -o /hytale/game.zip -d /hytale
     rm /hytale/game.zip
 
-    chmod +x /start.sh
-
     touch "$FIRST_RUN_FLAG"    
 
     echo "Setup complete."
@@ -25,6 +23,7 @@ fi
 
 echo "Starting main app..."
 
+chmod +x start.sh
 ./start.sh
 
 exec "$@"
