@@ -31,10 +31,19 @@ terminate() {
 
     # Gracefully stop Java
     pkill -TERM -f "HytaleServer.jar" || true
-    sleep 10
+    
+    # Wait up to 30 seconds for Java to exit
+    for i in $(seq 1 30); do
+        if ! pgrep -f "HytaleServer.jar" >/dev/null; then
+            echo "Hytale stopped cleanly"
+            exit 0
+        fi
+        sleep 1
+    done
 
-    # Hard kill if needed
+    echo "Hytale did not stop in time, forcing shutdown"
     pkill -KILL -f "HytaleServer.jar" || true
+    exit 0
 }
 
 trap terminate SIGTERM SIGINT
